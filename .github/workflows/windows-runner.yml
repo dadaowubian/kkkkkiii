@@ -1,0 +1,23 @@
+name: Windows Runner Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify-runner:
+    runs-on: windows-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Verify Windows runner
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          if ($env:RUNNER_OS -ne 'Windows') {
+            throw "Expected a Windows runner, got '$env:RUNNER_OS'."
+          }
+
+          Write-Host "Runner OS: $env:RUNNER_OS"
+          Write-Host "PowerShell: $($PSVersionTable.PSVersion)"
+          Write-Host 'Workflow completed successfully.'
